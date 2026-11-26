@@ -1,0 +1,630 @@
+{
+  "meta": {
+    "jobs": 53018,
+    "seed": 7,
+    "k": 10,
+    "vector_index": "notes",
+    "planner": "gold",
+    "fingerprint": "464de3e17d1c5d51"
+  },
+  "summary": {
+    "vector": {
+      "overall": {
+        "questions": 25,
+        "sufficient": 0,
+        "sufficient_rate": 0.0,
+        "mean_recall": 0.014,
+        "median_tokens": 733,
+        "p50_latency_ms": 14.5
+      },
+      "lookup": {
+        "questions": 3,
+        "sufficient": 0,
+        "sufficient_rate": 0.0,
+        "mean_recall": 0.0,
+        "median_tokens": 730,
+        "p50_latency_ms": 16.5
+      },
+      "relationship": {
+        "questions": 5,
+        "sufficient": 0,
+        "sufficient_rate": 0.0,
+        "mean_recall": 0.001,
+        "median_tokens": 734,
+        "p50_latency_ms": 15.7
+      },
+      "aggregation": {
+        "questions": 10,
+        "sufficient": 0,
+        "sufficient_rate": 0.0,
+        "mean_recall": 0.0,
+        "median_tokens": 728,
+        "p50_latency_ms": 14.4
+      },
+      "repeat_failures": {
+        "questions": 3,
+        "sufficient": 0,
+        "sufficient_rate": 0.0,
+        "mean_recall": 0.0,
+        "median_tokens": 753,
+        "p50_latency_ms": 14.0
+      },
+      "semantic": {
+        "questions": 2,
+        "sufficient": 0,
+        "sufficient_rate": 0.0,
+        "mean_recall": 0.167,
+        "median_tokens": 762,
+        "p50_latency_ms": 14.4
+      },
+      "semantic_filtered": {
+        "questions": 2,
+        "sufficient": 0,
+        "sufficient_rate": 0.0,
+        "mean_recall": 0.0,
+        "median_tokens": 776,
+        "p50_latency_ms": 14.2
+      }
+    },
+    "graph": {
+      "overall": {
+        "questions": 25,
+        "sufficient": 21,
+        "sufficient_rate": 0.84,
+        "mean_recall": 0.945,
+        "median_tokens": 138,
+        "p50_latency_ms": 26.5
+      },
+      "lookup": {
+        "questions": 3,
+        "sufficient": 3,
+        "sufficient_rate": 1.0,
+        "mean_recall": 1.0,
+        "median_tokens": 135,
+        "p50_latency_ms": 4.8
+      },
+      "relationship": {
+        "questions": 5,
+        "sufficient": 5,
+        "sufficient_rate": 1.0,
+        "mean_recall": 1.0,
+        "median_tokens": 404,
+        "p50_latency_ms": 15.8
+      },
+      "aggregation": {
+        "questions": 10,
+        "sufficient": 10,
+        "sufficient_rate": 1.0,
+        "mean_recall": 1.0,
+        "median_tokens": 71,
+        "p50_latency_ms": 31.9
+      },
+      "repeat_failures": {
+        "questions": 3,
+        "sufficient": 3,
+        "sufficient_rate": 1.0,
+        "mean_recall": 1.0,
+        "median_tokens": 487,
+        "p50_latency_ms": 21.0
+      },
+      "semantic": {
+        "questions": 2,
+        "sufficient": 0,
+        "sufficient_rate": 0.0,
+        "mean_recall": 0.583,
+        "median_tokens": 627,
+        "p50_latency_ms": 814.5
+      },
+      "semantic_filtered": {
+        "questions": 2,
+        "sufficient": 0,
+        "sufficient_rate": 0.0,
+        "mean_recall": 0.733,
+        "median_tokens": 609,
+        "p50_latency_ms": 96.0
+      }
+    }
+  },
+  "scores": [
+    {
+      "question": "q01",
+      "category": "lookup",
+      "system": "vector",
+      "recall": 0.0,
+      "sufficient": false,
+      "tokens": 751,
+      "latency_ms": 20.2,
+      "plan_matched": null
+    },
+    {
+      "question": "q01",
+      "category": "lookup",
+      "system": "graph",
+      "recall": 1.0,
+      "sufficient": true,
+      "tokens": 135,
+      "latency_ms": 6.0,
+      "plan_matched": null
+    },
+    {
+      "question": "q02",
+      "category": "lookup",
+      "system": "vector",
+      "recall": 0.0,
+      "sufficient": false,
+      "tokens": 730,
+      "latency_ms": 16.5,
+      "plan_matched": null
+    },
+    {
+      "question": "q02",
+      "category": "lookup",
+      "system": "graph",
+      "recall": 1.0,
+      "sufficient": true,
+      "tokens": 115,
+      "latency_ms": 4.7,
+      "plan_matched": null
+    },
+    {
+      "question": "q03",
+      "category": "lookup",
+      "system": "vector",
+      "recall": 0.0,
+      "sufficient": false,
+      "tokens": 699,
+      "latency_ms": 14.6,
+      "plan_matched": null
+    },
+    {
+      "question": "q03",
+      "category": "lookup",
+      "system": "graph",
+      "recall": 1.0,
+      "sufficient": true,
+      "tokens": 138,
+      "latency_ms": 4.8,
+      "plan_matched": null
+    },
+    {
+      "question": "q04",
+      "category": "relationship",
+      "system": "vector",
+      "recall": 0.0,
+      "sufficient": false,
+      "tokens": 714,
+      "latency_ms": 14.1,
+      "plan_matched": null
+    },
+    {
+      "question": "q04",
+      "category": "relationship",
+      "system": "graph",
+      "recall": 1.0,
+      "sufficient": true,
+      "tokens": 430,
+      "latency_ms": 16.8,
+      "plan_matched": null
+    },
+    {
+      "question": "q05",
+      "category": "relationship",
+      "system": "vector",
+      "recall": 0.0,
+      "sufficient": false,
+      "tokens": 725,
+      "latency_ms": 14.8,
+      "plan_matched": null
+    },
+    {
+      "question": "q05",
+      "category": "relationship",
+      "system": "graph",
+      "recall": 1.0,
+      "sufficient": true,
+      "tokens": 3322,
+      "latency_ms": 13.6,
+      "plan_matched": null
+    },
+    {
+      "question": "q06",
+      "category": "relationship",
+      "system": "vector",
+      "recall": 0.0,
+      "sufficient": false,
+      "tokens": 749,
+      "latency_ms": 15.7,
+      "plan_matched": null
+    },
+    {
+      "question": "q06",
+      "category": "relationship",
+      "system": "graph",
+      "recall": 1.0,
+      "sufficient": true,
+      "tokens": 404,
+      "latency_ms": 15.8,
+      "plan_matched": null
+    },
+    {
+      "question": "q07",
+      "category": "relationship",
+      "system": "vector",
+      "recall": 0.0,
+      "sufficient": false,
+      "tokens": 734,
+      "latency_ms": 16.5,
+      "plan_matched": null
+    },
+    {
+      "question": "q07",
+      "category": "relationship",
+      "system": "graph",
+      "recall": 1.0,
+      "sufficient": true,
+      "tokens": 163,
+      "latency_ms": 13.4,
+      "plan_matched": null
+    },
+    {
+      "question": "q08",
+      "category": "relationship",
+      "system": "vector",
+      "recall": 0.0052,
+      "sufficient": false,
+      "tokens": 735,
+      "latency_ms": 18.6,
+      "plan_matched": null
+    },
+    {
+      "question": "q08",
+      "category": "relationship",
+      "system": "graph",
+      "recall": 1.0,
+      "sufficient": true,
+      "tokens": 103,
+      "latency_ms": 34.9,
+      "plan_matched": null
+    },
+    {
+      "question": "q09",
+      "category": "aggregation",
+      "system": "vector",
+      "recall": 0.0,
+      "sufficient": false,
+      "tokens": 725,
+      "latency_ms": 15.0,
+      "plan_matched": null
+    },
+    {
+      "question": "q09",
+      "category": "aggregation",
+      "system": "graph",
+      "recall": 1.0,
+      "sufficient": true,
+      "tokens": 65,
+      "latency_ms": 15.3,
+      "plan_matched": null
+    },
+    {
+      "question": "q10",
+      "category": "aggregation",
+      "system": "vector",
+      "recall": 0.0,
+      "sufficient": false,
+      "tokens": 711,
+      "latency_ms": 14.4,
+      "plan_matched": null
+    },
+    {
+      "question": "q10",
+      "category": "aggregation",
+      "system": "graph",
+      "recall": 1.0,
+      "sufficient": true,
+      "tokens": 65,
+      "latency_ms": 32.6,
+      "plan_matched": null
+    },
+    {
+      "question": "q11",
+      "category": "aggregation",
+      "system": "vector",
+      "recall": 0.0001,
+      "sufficient": false,
+      "tokens": 723,
+      "latency_ms": 16.7,
+      "plan_matched": null
+    },
+    {
+      "question": "q11",
+      "category": "aggregation",
+      "system": "graph",
+      "recall": 1.0,
+      "sufficient": true,
+      "tokens": 119,
+      "latency_ms": 160.1,
+      "plan_matched": null
+    },
+    {
+      "question": "q12",
+      "category": "aggregation",
+      "system": "vector",
+      "recall": 0.0001,
+      "sufficient": false,
+      "tokens": 733,
+      "latency_ms": 14.1,
+      "plan_matched": null
+    },
+    {
+      "question": "q12",
+      "category": "aggregation",
+      "system": "graph",
+      "recall": 1.0,
+      "sufficient": true,
+      "tokens": 104,
+      "latency_ms": 133.3,
+      "plan_matched": null
+    },
+    {
+      "question": "q13",
+      "category": "aggregation",
+      "system": "vector",
+      "recall": 0.0,
+      "sufficient": false,
+      "tokens": 789,
+      "latency_ms": 15.0,
+      "plan_matched": null
+    },
+    {
+      "question": "q13",
+      "category": "aggregation",
+      "system": "graph",
+      "recall": 1.0,
+      "sufficient": true,
+      "tokens": 67,
+      "latency_ms": 31.0,
+      "plan_matched": null
+    },
+    {
+      "question": "q14",
+      "category": "aggregation",
+      "system": "vector",
+      "recall": 0.0025,
+      "sufficient": false,
+      "tokens": 728,
+      "latency_ms": 15.0,
+      "plan_matched": null
+    },
+    {
+      "question": "q14",
+      "category": "aggregation",
+      "system": "graph",
+      "recall": 1.0,
+      "sufficient": true,
+      "tokens": 66,
+      "latency_ms": 25.0,
+      "plan_matched": null
+    },
+    {
+      "question": "q15",
+      "category": "aggregation",
+      "system": "vector",
+      "recall": 0.0,
+      "sufficient": false,
+      "tokens": 731,
+      "latency_ms": 14.4,
+      "plan_matched": null
+    },
+    {
+      "question": "q15",
+      "category": "aggregation",
+      "system": "graph",
+      "recall": 1.0,
+      "sufficient": true,
+      "tokens": 66,
+      "latency_ms": 23.5,
+      "plan_matched": null
+    },
+    {
+      "question": "q16",
+      "category": "aggregation",
+      "system": "vector",
+      "recall": 0.0006,
+      "sufficient": false,
+      "tokens": 770,
+      "latency_ms": 14.2,
+      "plan_matched": null
+    },
+    {
+      "question": "q16",
+      "category": "aggregation",
+      "system": "graph",
+      "recall": 1.0,
+      "sufficient": true,
+      "tokens": 99,
+      "latency_ms": 58.5,
+      "plan_matched": null
+    },
+    {
+      "question": "q17",
+      "category": "aggregation",
+      "system": "vector",
+      "recall": 0.0,
+      "sufficient": false,
+      "tokens": 729,
+      "latency_ms": 13.9,
+      "plan_matched": null
+    },
+    {
+      "question": "q17",
+      "category": "aggregation",
+      "system": "graph",
+      "recall": 1.0,
+      "sufficient": true,
+      "tokens": 142,
+      "latency_ms": 31.1,
+      "plan_matched": null
+    },
+    {
+      "question": "q18",
+      "category": "aggregation",
+      "system": "vector",
+      "recall": 0.0001,
+      "sufficient": false,
+      "tokens": 707,
+      "latency_ms": 14.4,
+      "plan_matched": null
+    },
+    {
+      "question": "q18",
+      "category": "aggregation",
+      "system": "graph",
+      "recall": 1.0,
+      "sufficient": true,
+      "tokens": 75,
+      "latency_ms": 135.1,
+      "plan_matched": null
+    },
+    {
+      "question": "q19",
+      "category": "repeat_failures",
+      "system": "vector",
+      "recall": 0.0,
+      "sufficient": false,
+      "tokens": 753,
+      "latency_ms": 14.0,
+      "plan_matched": null
+    },
+    {
+      "question": "q19",
+      "category": "repeat_failures",
+      "system": "graph",
+      "recall": 1.0,
+      "sufficient": true,
+      "tokens": 487,
+      "latency_ms": 26.5,
+      "plan_matched": null
+    },
+    {
+      "question": "q20",
+      "category": "repeat_failures",
+      "system": "vector",
+      "recall": 0.0,
+      "sufficient": false,
+      "tokens": 731,
+      "latency_ms": 14.4,
+      "plan_matched": null
+    },
+    {
+      "question": "q20",
+      "category": "repeat_failures",
+      "system": "graph",
+      "recall": 1.0,
+      "sufficient": true,
+      "tokens": 499,
+      "latency_ms": 21.0,
+      "plan_matched": null
+    },
+    {
+      "question": "q21",
+      "category": "repeat_failures",
+      "system": "vector",
+      "recall": 0.0,
+      "sufficient": false,
+      "tokens": 839,
+      "latency_ms": 13.8,
+      "plan_matched": null
+    },
+    {
+      "question": "q21",
+      "category": "repeat_failures",
+      "system": "graph",
+      "recall": 1.0,
+      "sufficient": true,
+      "tokens": 479,
+      "latency_ms": 18.3,
+      "plan_matched": null
+    },
+    {
+      "question": "q22",
+      "category": "semantic",
+      "system": "vector",
+      "recall": 0.3333,
+      "sufficient": false,
+      "tokens": 770,
+      "latency_ms": 15.0,
+      "plan_matched": null
+    },
+    {
+      "question": "q22",
+      "category": "semantic",
+      "system": "graph",
+      "recall": 0.6667,
+      "sufficient": false,
+      "tokens": 638,
+      "latency_ms": 812.6,
+      "plan_matched": null
+    },
+    {
+      "question": "q23",
+      "category": "semantic",
+      "system": "vector",
+      "recall": 0.0,
+      "sufficient": false,
+      "tokens": 755,
+      "latency_ms": 13.8,
+      "plan_matched": null
+    },
+    {
+      "question": "q23",
+      "category": "semantic",
+      "system": "graph",
+      "recall": 0.5,
+      "sufficient": false,
+      "tokens": 617,
+      "latency_ms": 816.4,
+      "plan_matched": null
+    },
+    {
+      "question": "q24",
+      "category": "semantic_filtered",
+      "system": "vector",
+      "recall": 0.0,
+      "sufficient": false,
+      "tokens": 779,
+      "latency_ms": 13.9,
+      "plan_matched": null
+    },
+    {
+      "question": "q24",
+      "category": "semantic_filtered",
+      "system": "graph",
+      "recall": 0.8,
+      "sufficient": false,
+      "tokens": 584,
+      "latency_ms": 72.4,
+      "plan_matched": null
+    },
+    {
+      "question": "q25",
+      "category": "semantic_filtered",
+      "system": "vector",
+      "recall": 0.0,
+      "sufficient": false,
+      "tokens": 774,
+      "latency_ms": 14.5,
+      "plan_matched": null
+    },
+    {
+      "question": "q25",
+      "category": "semantic_filtered",
+      "system": "graph",
+      "recall": 0.6667,
+      "sufficient": false,
+      "tokens": 635,
+      "latency_ms": 119.5,
+      "plan_matched": null
+    }
+  ]
+}
