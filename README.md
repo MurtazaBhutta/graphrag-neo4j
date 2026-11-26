@@ -8,7 +8,7 @@
 **Natural-language questions over 53,000 field-service records, answered from a Neo4j knowledge
 graph and benchmarked against plain vector RAG on the same data, database and embedding model.**
 
-Neo4j · vector + full-text indexes · Claude (structured outputs) · FastAPI · fastembed
+Neo4j · vector + full-text indexes · Claude or Azure OpenAI (structured outputs) · FastAPI · fastembed
 (bge-small, CPU) · pytest · Docker Compose · GitHub Actions
 
 ---
@@ -64,21 +64,21 @@ Full per-question results: [`benchmark/results/`](benchmark/results). Reproduce 
   The vector baseline is *sufficient* if **every** record the answer depends on is in its
   context, which is the most generous reading. Whether a model then adds up 340 rows correctly
   is not charged to it.
-- **Gold plans isolate retrieval.** The table uses labelled plans. `make bench-live` has Claude
-  produce the plans instead and reports exact plan-match accuracy. That run needs an API key and
+- **Gold plans isolate retrieval.** The table uses labelled plans. `make bench-live` has a live model
+  (Claude, or Azure OpenAI with `PLANNER=azure_openai`) produce the plans instead and reports exact plan-match accuracy. That run needs an API key and
   is not in CI; I have not published its numbers.
 
 ## How it works
 
 ```mermaid
 flowchart LR
-    Q[Question] --> P[Planner<br/>Claude, structured output]
+    Q[Question] --> P[Planner<br/>Claude or Azure OpenAI,<br/>structured output]
     P -->|QueryPlan: intent, filters,<br/>metric, group_by| L[Entity linking<br/>exact, then full-text]
     L -->|ambiguous name| C[Ask the user<br/>with candidates]
     L --> X[Compile to Cypher<br/>fixed fragments + parameters]
     X --> N[(Neo4j<br/>read transaction)]
     N --> R[Exact rows + evidence ids]
-    R --> A[Answer<br/>Claude, cites job ids]
+    R --> A[Answer<br/>LLM, cites job ids]
     Q -.->|baseline| V[Vector index<br/>top-k records] -.-> A
 ```
 
@@ -145,10 +145,26 @@ curl -X POST localhost:8000/query -H 'Content-Type: application/json' \
 | Endpoint | What it does | Needs a model key |
 |---|---|---|
 | `POST /query` | run a `QueryPlan` directly; returns rows, value, evidence and the Cypher | no |
-| `POST /ask` | question → plan → Cypher → answer with citations; `mode: "vector"` for comparison | yes |
+| `POST /ask` | question → plan → Cypher → answer with citations; `mode: "vector"` for comparison | yes (Claude or Azure OpenAI) |
 | `GET /health` | database reachability and which world is loaded | no |
 
-With `ANTHROPIC_API_KEY` set: `python -m graphrag ask "Which Meridian Hotels assets keep failing?"`.
+With a model configured: `python -m graphrag ask "Which Meridian Hotels assets keep failing?"`.
+
+### Model providers
+
+The planner and the answer writer have two implementations with the same prompts and the same
+`QueryPlan` schema. `GRAPHRAG_LLM_PROVIDER` picks one:
+
+| `GRAPHRAG_LLM_PROVIDER` | Settings |
+|---|---|
+| `anthropic` (default) | `ANTHROPIC_API_KEY` |
+| `azure_openai` | `AZURE_OPENAI_ENDPOINT` (`https://<resource>.openai.azure.com`), `AZURE_OPENAI_API_KEY`, `AZURE_OPENAI_DEPLOYMENT` |
+
+Azure OpenAI is called through the v1 API with the `openai` SDK, so no `api-version` is needed.
+The deployment must support structured outputs (for example gpt-4o 2024-08-06 or later, gpt-4.1
+or the gpt-5 family). Without either provider configured, `/query` and `/health` still work and
+`/ask` says what is missing. `make bench-live PLANNER=azure_openai` scores the Azure planner
+against the gold plans the same way.
 
 ## Tests and CI
 
@@ -158,7 +174,7 @@ With `ANTHROPIC_API_KEY` set: `python -m graphrag ask "Which Meridian Hotels ass
 | `test_cypher_safety.py` | an injection string in every free-text field never appears in the query text; every metric × grouping compiles |
 | `test_datagen.py` | same world across processes and hash seeds; planted phrasings appear only in planted jobs |
 | `test_bench_scoring.py` | the scoring rules, and the gate fails on a wrong graph answer |
-| `test_llm_and_api.py` | planner and answer-writer request shape and refusal handling (fake client); API status codes |
+| `test_llm_and_api.py` | planner and answer-writer request shape and refusal handling for Claude and Azure OpenAI (fake clients); provider selection; API status codes |
 
 CI runs three jobs: **unit** (lint plus 44 tests, no database), **integration** (Neo4j service,
 5,000-job world, fails if any test was skipped, then the benchmark gate), and **Docker** (build

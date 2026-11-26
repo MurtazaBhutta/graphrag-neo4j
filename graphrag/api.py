@@ -108,13 +108,13 @@ def app_from_env() -> FastAPI:
         import anthropic
 
         from .cli import driver_from_env, make_embedder
-        from .llm import AnswerWriter, ClaudePlanner
+        from .llm import ModelNotConfigured, make_planner, make_writer
         from .service import GraphRAGService
 
-        try:
-            planner, writer = ClaudePlanner(), AnswerWriter()
-        except anthropic.AnthropicError:  # no credentials: /query and /health still work
-            planner = writer = None
+        try:  # GRAPHRAG_LLM_PROVIDER picks Claude (default) or Azure OpenAI
+            planner, writer = make_planner(), make_writer()
+        except (anthropic.AnthropicError, ModelNotConfigured):
+            planner = writer = None  # no credentials: /query and /health still work
         return GraphRAGService(driver_from_env(), make_embedder(), planner, writer)
 
     return create_app(factory)

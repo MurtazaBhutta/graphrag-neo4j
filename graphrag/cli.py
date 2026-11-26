@@ -53,14 +53,16 @@ def main(argv: list[str] | None = None) -> int:
     )
     p_bench.add_argument(
         "--planner",
-        choices=["gold", "claude"],
+        choices=["gold", "claude", "azure_openai"],
         default="gold",
-        help="gold: use the labelled plans; claude: plan with the live model",
+        help="gold: use the labelled plans; claude or azure_openai: plan with that live model",
     )
     p_bench.add_argument("--out", type=Path, help="write the full results as JSON")
     p_bench.add_argument("--gate", action="store_true", help="exit 1 if the gate fails")
 
-    p_ask = sub.add_parser("ask", help="answer a question with graph RAG and Claude")
+    p_ask = sub.add_parser(
+        "ask", help="answer a question with graph RAG and the model in GRAPHRAG_LLM_PROVIDER"
+    )
     p_ask.add_argument("question")
 
     args = parser.parse_args(argv)
@@ -88,10 +90,10 @@ def _bench(driver, args) -> int:
     embedder = make_embedder()
     questions = build_questions(world)
     planner = None
-    if args.planner == "claude":
-        from .llm import ClaudePlanner
+    if args.planner != "gold":
+        from .llm import make_planner
 
-        planner = ClaudePlanner()
+        planner = make_planner("anthropic" if args.planner == "claude" else args.planner)
     scores = bench.run(
         questions,
         VectorRetriever(driver, embedder, k=args.k, index=INDEXES[args.vector_index]),
@@ -116,10 +118,10 @@ def _bench(driver, args) -> int:
 
 
 def _ask(driver, question: str) -> int:
-    from .llm import AnswerWriter, ClaudePlanner
+    from .llm import make_planner, make_writer
     from .service import GraphRAGService
 
-    service = GraphRAGService(driver, make_embedder(), ClaudePlanner(), AnswerWriter())
+    service = GraphRAGService(driver, make_embedder(), make_planner(), make_writer())
     reply = service.ask(question)
     print(reply.answer)
     print(f"\n[plan] {reply.plan.model_dump_json(exclude_none=True)}")

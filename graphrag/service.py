@@ -34,7 +34,9 @@ class GraphRAGService:
         started = time.perf_counter()
         if self.planner is None or self.writer is None:
             return Reply(
-                "No language model is configured; set ANTHROPIC_API_KEY. "
+                "No language model is configured; set ANTHROPIC_API_KEY, or set "
+                "GRAPHRAG_LLM_PROVIDER=azure_openai with AZURE_OPENAI_ENDPOINT, "
+                "AZURE_OPENAI_API_KEY and AZURE_OPENAI_DEPLOYMENT. "
                 "POST /query still works with an explicit plan.",
                 mode,
             )

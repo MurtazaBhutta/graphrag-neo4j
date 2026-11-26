@@ -41,7 +41,7 @@ customer is the worst failure this system can have.
   benchmark question and 300 random plans against an independent Python implementation
   (`reference.py`).
 - Planner quality becomes measurable: a plan either equals the gold plan or it does not
-  (`bench --planner claude`).
+  (`bench --planner claude`, or `--planner azure_openai`: both providers fill the same schema).
 - The cost is coverage. A question outside the four intents gets no answer rather than an
   improvised query. Adding an intent means adding Cypher, a reference implementation and tests,
   which is deliberate friction.
