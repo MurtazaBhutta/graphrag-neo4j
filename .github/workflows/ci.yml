@@ -1,0 +1,87 @@
+name: ci
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+env:
+  GRAPHRAG_CACHE: ${{ github.workspace }}/.cache
+
+jobs:
+  unit:
+    name: lint and unit tests (no database)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -e ".[dev]"
+      - run: ruff check .
+      - run: ruff format --check .
+      - run: pytest -m "not neo4j" -rs
+
+  integration:
+    name: Cypher vs reference, and the benchmark gate (Neo4j)
+    runs-on: ubuntu-latest
+    services:
+      neo4j:
+        image: neo4j:5.26-community
+        env:
+          NEO4J_AUTH: neo4j/graphrag-dev
+        ports:
+          - 7687:7687
+        options: >-
+          --health-cmd "cypher-shell -u neo4j -p graphrag-dev 'RETURN 1'"
+          --health-interval 5s
+          --health-timeout 10s
+          --health-retries 30
+    env:
+      GRAPHRAG_TEST_JOBS: "5000"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -e ".[dev]"
+      # The embedding model and the embeddings of the generated world are pure functions of
+      # the code, so they are cached between runs.
+      - uses: actions/cache@v4
+        with:
+          path: .cache
+          key: graphrag-${{ hashFiles('graphrag/datagen.py', 'graphrag/embeddings.py') }}
+      - name: Load a 5,000-job world
+        run: python -m graphrag load --jobs 5000
+      - run: pytest -m neo4j -rs --junitxml=results.xml
+      # These tests are the evidence that the Cypher is right. A skip must not read as a pass.
+      - name: Fail if anything was skipped
+        run: |
+          python - <<'PY'
+          import xml.etree.ElementTree as ET
+          suite = ET.parse("results.xml").getroot().find("testsuite")
+          tests, skipped = int(suite.get("tests")), int(suite.get("skipped"))
+          print(f"{tests} integration tests, {skipped} skipped")
+          assert skipped == 0, "integration tests were skipped"
+          assert tests >= 6, f"expected at least 6 integration tests, collected {tests}"
+          PY
+      - name: Benchmark gate
+        run: python -m graphrag bench --jobs 5000 --gate
+
+  docker:
+    name: docker compose smoke test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker compose up --build -d --wait
+      - run: docker compose run --rm api python -m graphrag load --jobs 2000
+      - run: bash scripts/smoke.sh
+      - if: failure()
+        run: docker compose logs
+      - if: always()
+        run: docker compose down -v
